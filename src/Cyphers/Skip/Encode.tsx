@@ -39,8 +39,8 @@ const SkipEncode: FC = () => {
 	};
 
 	
-
-	const getCypher = (text: string, skip: number, offset: number) => {
+	// To je kokot... Jsem to tam dal obráceně...
+	const getCypher = (text: string, offset: number, skip: number) => {
 		const arr = Array.from(text);
 		let currentIndex = 0;
 		let newString = "";
@@ -71,6 +71,7 @@ const SkipEncode: FC = () => {
 			<p>Text: {text === "" ? "Nejsou data": text}</p>
 			<p>Šifra je: {cypher === "" ? "Nejsou data": cypher}</p>
 			<p>Je validní: {isValid ? "Ano":"Ne"}</p>
+			<p>To je kokot... Jsem tam dal obráceně proměnné a nefungovalo to...</p>
 		</>
 	);
 };
