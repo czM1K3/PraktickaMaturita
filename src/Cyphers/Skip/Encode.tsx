@@ -14,17 +14,23 @@ const SkipEncode: FC = () => {
 	const [skip, setSkip] = useState<number>(-1);
 	const [offset, setOffset] = useState<number>(-1);
 	const [text, setText] = useState<string>("");
-	const [token, setToken] = useState<string>("");
+	const [isValid, setIsValid] = useState<boolean>(false);
 	const [cypher, setCypher] = useState<string>("");
 
 	const fetch = async () => {
-		const data: ApiResponse = await myFetch("https://sifrovani.maturita.delta-www.cz/skip/encode", Methods.Get, {});
+		const data: ApiResponse = await myFetch("https://sifrovani.maturita.delta-www.cz/skip/encode", Methods.Get);
 		setSkip(data.skip);
 		setOffset(data.offset);
 		setText(data.text);
-		setToken(data.token);
-		setCypher(getCypher(data.text, data.skip, data.offset));
+		const newCypher = getCypher(data.text, data.skip, data.offset);
+		setCypher(newCypher);
 		console.log(data.token);
+
+		const newIsValid: {success: boolean} = await myFetch("https://sifrovani.maturita.delta-www.cz/verify", Methods.Post, {
+			token: data.token,
+			encoded: newCypher,
+		});
+		setIsValid(newIsValid.success);
 	};
 
 	const randomLetter = () => {
@@ -64,6 +70,7 @@ const SkipEncode: FC = () => {
 			<p>Offset: {offset === -1 ? "Nejsou data": offset}</p>
 			<p>Text: {text === "" ? "Nejsou data": text}</p>
 			<p>Šifra je: {cypher === "" ? "Nejsou data": cypher}</p>
+			<p>Je validní: {isValid ? "Ano":"Ne"}</p>
 		</>
 	);
 };
