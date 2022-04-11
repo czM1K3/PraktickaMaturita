@@ -12,6 +12,7 @@ type ApiResponse = {
 };
 
 const SkipEncode: FC = () => {
+	const [fetching, setFetching] = useState<boolean>(false);
 	const [skip, setSkip] = useState<number>(-1);
 	const [offset, setOffset] = useState<number>(-1);
 	const [text, setText] = useState<string>("");
@@ -19,7 +20,10 @@ const SkipEncode: FC = () => {
 	const [cypher, setCypher] = useState<string>("");
 
 	const fetch = async () => {
+		setFetching(true);
 		const data: ApiResponse = await myFetch("https://sifrovani.maturita.delta-www.cz/skip/encode", Methods.Get);
+		setFetching(false);
+
 		setSkip(data.skip);
 		setOffset(data.offset);
 		setText(data.text);
@@ -61,7 +65,7 @@ const SkipEncode: FC = () => {
 	return (
 		<>
 			<h1>Skip zakódování</h1>
-			<button onClick={fetch}>Získat data</button>
+			<button onClick={fetch} disabled={fetching}>Získat data</button>
 			<p>Skip: {skip === -1 ? "Nejsou data": skip}</p>
 			<p>Offset: {offset === -1 ? "Nejsou data": offset}</p>
 			<p>Text: {text === "" ? "Nejsou data": text}</p>

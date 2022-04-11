@@ -10,6 +10,7 @@ type ApiResponse = {
 };
 
 const GridSimpleEncode: FC = () => {
+	const [fetching, setFetching] = useState<boolean>(false);
 	const [rawGrid, setRawGrid] = useState<boolean[][] | null>(null);
 	const [grid, setGrid] = useState<string[][] | null>(null);
 	const [text, setText] = useState<string>("");
@@ -17,7 +18,9 @@ const GridSimpleEncode: FC = () => {
 	const [isValid, setIsValid] = useState<boolean>(false);
 
 	const fetch = async () => {
+		setFetching(true);
 		const data: ApiResponse = await myFetch("https://sifrovani.maturita.delta-www.cz/grid-simple/encode", Methods.Post);
+		setFetching(false);
 
 		setText(data.text);
 		const arraySize = data.grid.length;
@@ -41,7 +44,7 @@ const GridSimpleEncode: FC = () => {
 	return (
 		<>
 			<h1>Mřížka zakódování - jednoduchá</h1>
-			<button onClick={fetch}>Získat data</button>
+			<button onClick={fetch} disabled={fetching}>Získat data</button>
 			<p>Text: {text === "" ? "Nejsou data" : text}</p>
 			<RawGrid grid={rawGrid} />
 			<DataGrid grid={grid} rawGrid={rawGrid} />
@@ -82,15 +85,19 @@ const DataGrid: FC<DataGrid> = ({ grid, rawGrid }) => !grid || !rawGrid ? <>Nelz
 		<div style={{ display: "flex", flexDirection: "column" }}>
 			{grid!.map((row, i) => (
 				<div style={{ display: "flex" }} key={`i${i}`}>
-					{row.map((cell, j) => (
-						<div style={{
-							width: "30px",
-							height: "30px",
-							backgroundColor: rawGrid[i][j] ? "yellow" : "white",
-							border: "red 1px solid",
-							textAlign: "center",
-						}} key={`j${j}`}>{cell}</div>
-					))}
+					{row.map((cell, j) => {
+						const a = rawGrid![i];
+						const b = a ? a[j] ?? false : false;
+						return (
+							<div style={{
+								width: "30px",
+								height: "30px",
+								backgroundColor: b ? "yellow" : "white",
+								border: "red 1px solid",
+								textAlign: "center",
+							}} key={`j${j}`}>{cell}</div>
+						)
+					})}
 				</div>
 			))}
 		</div>

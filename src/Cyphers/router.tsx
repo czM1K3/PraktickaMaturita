@@ -2,8 +2,8 @@ import React, { FC } from "react";
 import { Pages } from "../enums/pages";
 import ColorsDecode from "./Colors/Decode";
 import ColorsEncode from "./Colors/Encode";
-import GridSimpleDecode from "./Grid/GridSimpleDecode";
-import GridSimpleEncode from "./Grid/GridSimpleEncode";
+import GridDecode from "./Grid/Decode";
+import GridEncode from "./Grid/Encode";
 import SkipDecode from "./Skip/Decode";
 import SkipEncode from "./Skip/Encode";
 
@@ -21,14 +21,10 @@ const Router: FC<RouterProps> = ({ page }) => {
 			return <ColorsEncode />;
 		case Pages.ColorsDecode:
 			return <ColorsDecode />;
-		case Pages.GridDecode:
-			return <></>;
-		case Pages.GridEncode:
-			return <></>;
 		case Pages.GridDecodeSimple:
-			return <GridSimpleDecode />;
+			return <GridDecode />;
 		case Pages.GridEncodeSimple:
-			return <GridSimpleEncode />;
+			return <GridEncode />;
 	}
 };
 
