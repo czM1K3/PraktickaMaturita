@@ -34,7 +34,7 @@ const SkipEncode: FC = () => {
 	 charactersLength));
 	}
 
-	const getCypher = (text: string, offset: number, skip: number) => {
+	const getCypher = (text: string, skip: number, offset: number) => {
 		const arr = Array.from(text);
 		let currentIndex = 0;
 		let newString = "";

@@ -6,24 +6,25 @@ import Enumerable from "linq";
 type ApiResponse = {
 	skip: number;
 	offset: number;
-	text: string;
+	encoded: string;
 	token: string;
 };
 
 const SkipDecode: FC = () => {
 	const [skip, setSkip] = useState<number>(-1);
 	const [offset, setOffset] = useState<number>(-1);
-	const [text, setText] = useState<string>("");
+	const [encoded, setEncoded] = useState<string>("");
 	const [token, setToken] = useState<string>("");
 	const [cypher, setCypher] = useState<string>("");
 
 	const fetch = async () => {
-		const data: ApiResponse = await myFetch("https://sifrovani.maturita.delta-www.cz/skip/encode", Methods.Get, {});
+		const data: ApiResponse = await myFetch("https://sifrovani.maturita.delta-www.cz/skip/decode", Methods.Get, {});
+
 		setSkip(data.skip);
 		setOffset(data.offset);
-		setText(data.text);
+		setEncoded(data.encoded);
 		setToken(data.token);
-		setCypher(getCypher(data.text, data.skip, data.offset));
+		setCypher(getCypher(data.encoded, data.skip, data.offset));
 		console.log(data.token);
 	};
 
@@ -35,11 +36,11 @@ const SkipDecode: FC = () => {
 
 	return (
 		<>
-			<h1>Skip zakódování</h1>
+			<h1>Skip odkódování</h1>
 			<button onClick={fetch}>Získat data</button>
 			<p>Skip: {skip === -1 ? "Nejsou data": skip}</p>
 			<p>Offset: {offset === -1 ? "Nejsou data": offset}</p>
-			<p>Text: {text === "" ? "Nejsou data": text}</p>
+			<p>Šifra: {encoded === "" ? "Nejsou data": encoded}</p>
 			<p>Šifra je: {cypher === "" ? "Nejsou data": cypher}</p>
 		</>
 	);
