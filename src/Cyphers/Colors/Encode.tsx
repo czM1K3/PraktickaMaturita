@@ -44,7 +44,7 @@ const ColorsEncode: FC = () => {
 			<h1>Barvy zakódování</h1>
 			<button onClick={fetch} disabled={fetching}>Získat data</button>
 			<p>Text: {text === "" ? "Nejsou data" : text}</p>
-			<p>Řetězec: {grid === null ? "Nejsou data": JSON.stringify(grid)}</p>
+			<p>Řetězec: {grid === null ? "Nejsou data": grid.flat().map((x) => x ? "W":"K").join("")}</p>
 			<ShowGrid grid={grid} />
 		</>
 	);
@@ -61,10 +61,10 @@ const ShowGrid: FC<GridProps> = ({ grid }) => !grid ? <>Nelze zobrazit tabulku</
 			}} key={y}>
 				{row.map((cell, x) => (
 					<div key={x} style={{
-						backgroundColor: cell ? "black" : "white",
+						backgroundColor: !cell ? "black" : "white",
 						width: "10px",
 						height: "10px",
-						margin: "1px"
+						border: "grey 1px solid"
 					}} />
 				))}
 			</div>
