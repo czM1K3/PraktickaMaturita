@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { Methods } from "../../enums/methods";
 import { myFetch } from "../../utils/myFetch";
 import Enumerable from "linq";
+import { randomLetter } from "../../utils/randomLetter";
 
 type ApiResponse = {
 	skip: number;
@@ -33,12 +34,7 @@ const SkipEncode: FC = () => {
 		setIsValid(newIsValid.success);
 	};
 
-	const randomLetter = () => {
-		var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ ';
-		var charactersLength = characters.length;
-		return characters.charAt(Math.floor(Math.random() * 
-	 charactersLength));
-	}
+	
 
 	const getCypher = (text: string, skip: number, offset: number) => {
 		const arr = Array.from(text);
